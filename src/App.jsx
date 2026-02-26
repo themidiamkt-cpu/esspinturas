@@ -22,7 +22,7 @@ import {
 const PHONE = "+55 11 99999-9999";
 const WHATSAPP_NUMBER = "5511999999999";
 const TARGET_AREA = "Estado de São Paulo";
-const BRAND_NAME = "Ess Pinturas";
+const BRAND_NAME = "E2SPinturas";
 
 const navLinks = [
   { label: "Método", href: "#metodo" },
@@ -241,7 +241,7 @@ const sectionCta = (label = "Agendar Vistoria Técnica") => (
       <ArrowUpRight size={18} />
     </a>
     <a
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da Ess Pinturas.`}
+      href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da ${BRAND_NAME}.`}
       target="_blank"
       rel="noreferrer"
       className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-300/60 bg-white px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-ink transition hover:bg-ink hover:text-fog sm:w-auto sm:px-6 sm:text-sm"
@@ -446,7 +446,7 @@ function App() {
                   <LayoutGrid size={18} />
                 </a>
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da Ess Pinturas.`}
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da ${BRAND_NAME}.`}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-fog/70 bg-fog/10 px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-fog transition hover:bg-fog hover:text-ink sm:w-auto sm:px-6 sm:text-sm"
@@ -779,7 +779,7 @@ function App() {
                       <ArrowUpRight size={18} />
                     </button>
                     <a
-                      href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da Ess Pinturas.`}
+                      href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da ${BRAND_NAME}.`}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-300/60 px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-ink transition hover:bg-ink hover:text-fog sm:w-auto sm:px-6 sm:text-sm"
@@ -837,7 +837,7 @@ function App() {
       </footer>
 
       <a
-        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da Ess Pinturas.`}
+        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da ${BRAND_NAME}.`}
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-4 left-4 right-4 z-50 inline-flex items-center justify-center gap-2 rounded-full border border-sky-300/65 bg-gradient-to-r from-signal to-signalDark px-4 py-3 text-xs font-bold uppercase tracking-[0.08em] text-fog shadow-brutal md:hidden"
@@ -847,7 +847,7 @@ function App() {
       </a>
 
       <a
-        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da Ess Pinturas.`}
+        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da ${BRAND_NAME}.`}
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full border border-sky-300/65 bg-gradient-to-r from-signal to-signalDark px-5 py-3 text-sm font-bold uppercase tracking-[0.08em] text-fog shadow-brutal transition hover:-translate-y-1 lg:inline-flex"
