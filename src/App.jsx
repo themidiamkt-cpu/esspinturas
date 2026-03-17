@@ -5,6 +5,8 @@ import {
   ArrowUpRight,
   BadgeCheck,
   Building2,
+  ChevronLeft,
+  ChevronRight,
   CircleCheckBig,
   ClipboardList,
   FileCheck2,
@@ -16,13 +18,15 @@ import {
   ShieldCheck,
   Star,
   Waypoints,
-  Wrench
+  Wrench,
+  X
 } from "lucide-react";
 
-const PHONE = "+55 11 99999-9999";
-const WHATSAPP_NUMBER = "5511999999999";
+const PHONE = "+55 19 98611-4474";
+const WHATSAPP_NUMBER = "5519986114474";
 const TARGET_AREA = "Estado de São Paulo";
 const BRAND_NAME = "E2SPinturas";
+const FORM_WEBHOOK_URL = "https://automacao2.themidiamarketing.com.br/webhook/form-e2s";
 
 const navLinks = [
   { label: "Método", href: "#metodo" },
@@ -149,7 +153,61 @@ const services = [
 
 const portfolioFilters = ["Todos", "Condomínio", "Comercial", "Corporativo", "Altura"];
 
+const galeriaShoppingCover = new URL("../imagens/Galeria Shopping/capa.png", import.meta.url).href;
+
+const galeriaShoppingPhotos = [
+  {
+    src: galeriaShoppingCover,
+    alt: "Capa do projeto Galeria Shopping com fachada em execução de pintura"
+  },
+  {
+    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.18.jpeg", import.meta.url).href,
+    alt: "Equipe técnica executando pintura predial no projeto Galeria Shopping"
+  },
+  {
+    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.18 (1).jpeg", import.meta.url).href,
+    alt: "Fachada do Galeria Shopping durante etapa de recuperação e pintura"
+  },
+  {
+    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.18 (2).jpeg", import.meta.url).href,
+    alt: "Execução em altura no projeto Galeria Shopping em São Paulo"
+  },
+  {
+    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.19.jpeg", import.meta.url).href,
+    alt: "Detalhe de aplicação técnica em fachada no Galeria Shopping"
+  },
+  {
+    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.20.jpeg", import.meta.url).href,
+    alt: "Obra predial comercial em andamento no Galeria Shopping"
+  },
+  {
+    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.20 (1).jpeg", import.meta.url).href,
+    alt: "Pintura predial com protocolo técnico no Galeria Shopping"
+  },
+  {
+    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.20 (2).jpeg", import.meta.url).href,
+    alt: "Etapa de acabamento da pintura externa no Galeria Shopping"
+  },
+  {
+    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.21.jpeg", import.meta.url).href,
+    alt: "Frente de trabalho em pintura de fachada comercial no Galeria Shopping"
+  },
+  {
+    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.21 (1).jpeg", import.meta.url).href,
+    alt: "Resultado técnico de obra de pintura predial no Galeria Shopping"
+  }
+];
+
 const portfolioItems = [
+  {
+    project: "Galeria Shopping",
+    city: "Galeria Shopping - SP",
+    type: "Comercial",
+    area: "Projeto realizado",
+    result: "Execução técnica de fachada comercial com controle de qualidade por etapa.",
+    image: galeriaShoppingCover,
+    gallery: galeriaShoppingPhotos
+  },
   {
     city: "São Paulo - SP",
     type: "Corporativo",
@@ -255,11 +313,93 @@ const sectionCta = (label = "Agendar Vistoria Técnica") => (
 function App() {
   const pageRef = useRef(null);
   const [activeFilter, setActiveFilter] = useState("Todos");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formFeedback, setFormFeedback] = useState({ type: "", message: "" });
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [activeProjectPhoto, setActiveProjectPhoto] = useState(0);
 
   const filteredPortfolio =
     activeFilter === "Todos"
       ? portfolioItems
       : portfolioItems.filter((item) => item.type === activeFilter);
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      nome: String(formData.get("nome") || "").trim(),
+      telefone: String(formData.get("telefone") || "").trim(),
+      cidade: String(formData.get("cidade") || "").trim(),
+      tipo_imovel: String(formData.get("tipoImovel") || "").trim(),
+      area_aproximada: String(formData.get("areaAproximada") || "").trim(),
+      descricao_problema: String(formData.get("problema") || "").trim(),
+      origem: "landing-e2spinturas",
+      pagina: typeof window !== "undefined" ? window.location.href : "",
+      timestamp: new Date().toISOString()
+    };
+
+    try {
+      setIsSubmitting(true);
+      setFormFeedback({ type: "", message: "" });
+
+      const response = await fetch(FORM_WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Webhook retornou ${response.status}`);
+      }
+
+      form.reset();
+      setFormFeedback({
+        type: "success",
+        message: "Dados enviados com sucesso. Nosso time vai entrar em contato."
+      });
+    } catch (error) {
+      setFormFeedback({
+        type: "error",
+        message: "Não foi possível enviar agora. Tente novamente ou fale no WhatsApp."
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const openProjectModal = (project) => {
+    const gallery =
+      project.gallery?.length > 0
+        ? project.gallery
+        : [{ src: project.image, alt: `Obra predial em ${project.city}` }];
+
+    setSelectedProject({ ...project, gallery });
+    setActiveProjectPhoto(0);
+  };
+
+  const closeProjectModal = () => {
+    setSelectedProject(null);
+    setActiveProjectPhoto(0);
+  };
+
+  const goToPreviousPhoto = () => {
+    if (!selectedProject?.gallery?.length) return;
+    setActiveProjectPhoto((current) =>
+      current === 0 ? selectedProject.gallery.length - 1 : current - 1
+    );
+  };
+
+  const goToNextPhoto = () => {
+    if (!selectedProject?.gallery?.length) return;
+    setActiveProjectPhoto((current) =>
+      current === selectedProject.gallery.length - 1 ? 0 : current + 1
+    );
+  };
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -297,6 +437,32 @@ function App() {
       );
     }
   }, []);
+
+  useEffect(() => {
+    if (!selectedProject) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        closeProjectModal();
+        return;
+      }
+      if (event.key === "ArrowLeft") {
+        goToPreviousPhoto();
+      }
+      if (event.key === "ArrowRight") {
+        goToNextPhoto();
+      }
+    };
+
+    const currentOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = currentOverflow;
+    };
+  }, [selectedProject]);
 
   const schemaData = useMemo(
     () => ({
@@ -624,19 +790,55 @@ function App() {
 
             <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {filteredPortfolio.map((work) => (
-                <article key={`${work.city}-${work.type}`} className="overflow-hidden rounded-2xl border border-sky-300/55 bg-white shadow-brutalSoft">
+                <button
+                  key={`${work.city}-${work.type}`}
+                  type="button"
+                  onClick={() => openProjectModal(work)}
+                  className="overflow-hidden rounded-2xl border border-sky-300/55 bg-white text-left shadow-brutalSoft transition hover:-translate-y-1 hover:shadow-brutal"
+                >
                   <img src={work.image} alt={`Obra predial em ${work.city}`} className="h-44 w-full object-cover" loading="lazy" />
                   <div className="p-5">
                     <h3 className="text-lg font-semibold">{work.city}</h3>
                     <p className="mt-2 text-sm text-ink/80">Tipo: {work.type}</p>
                     <p className="text-sm text-ink/80">Área: {work.area}</p>
                     <p className="mt-3 text-sm leading-relaxed text-ink/85">Resultado: {work.result}</p>
+                    <p className="mt-4 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-signal">
+                      Ver projeto completo
+                      <ArrowUpRight size={14} />
+                    </p>
                   </div>
-                </article>
+                </button>
               ))}
             </div>
             {sectionCta("Ver disponibilidade de equipe")}
           </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24" data-reveal>
+          <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">Projeto Realizado: Galeria Shopping</h2>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink/80">
+            Registro completo da execução técnica em fachada comercial. Abaixo estão a capa do projeto e todas as imagens de obra.
+          </p>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {galeriaShoppingPhotos.map((photo, index) => (
+              <figure
+                key={photo.src}
+                className="overflow-hidden rounded-2xl border border-sky-300/55 bg-white shadow-brutalSoft"
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  className="h-52 w-full object-cover transition duration-300 hover:scale-[1.03] sm:h-56"
+                  loading="lazy"
+                />
+                <figcaption className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-ink/75">
+                  Galeria Shopping - Imagem {String(index + 1).padStart(2, "0")}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          {sectionCta("Quero uma vistoria técnica para obra comercial")}
         </section>
 
         <section id="atendimento" className="border-b border-sky-900/15 bg-ink py-16 text-fog md:py-24" data-reveal>
@@ -705,12 +907,13 @@ function App() {
             <div className="mt-8 grid gap-6 lg:grid-cols-[1.45fr_1fr]">
               <form
                 className="grid gap-4 rounded-3xl border border-sky-300/55 bg-white p-6 shadow-brutalSoft md:grid-cols-2"
-                onSubmit={(event) => event.preventDefault()}
+                onSubmit={handleFormSubmit}
               >
                 <label className="text-sm font-semibold">
                   Nome
                   <input
                     type="text"
+                    name="nome"
                     required
                     className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
                   />
@@ -720,6 +923,7 @@ function App() {
                   Telefone
                   <input
                     type="tel"
+                    name="telefone"
                     required
                     className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
                   />
@@ -729,6 +933,7 @@ function App() {
                   Cidade
                   <input
                     type="text"
+                    name="cidade"
                     required
                     className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
                   />
@@ -737,6 +942,7 @@ function App() {
                 <label className="text-sm font-semibold">
                   Tipo de imóvel
                   <select
+                    name="tipoImovel"
                     required
                     defaultValue=""
                     className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
@@ -755,6 +961,7 @@ function App() {
                   Área aproximada
                   <input
                     type="text"
+                    name="areaAproximada"
                     placeholder="Ex: 8.000 m²"
                     className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
                   />
@@ -763,6 +970,7 @@ function App() {
                 <label className="text-sm font-semibold md:col-span-2">
                   Descreva o problema
                   <textarea
+                    name="problema"
                     rows={5}
                     placeholder="Informe sintomas da fachada, urgência e restrições operacionais."
                     className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
@@ -773,9 +981,10 @@ function App() {
                   <div className="flex flex-wrap gap-3">
                     <button
                       type="submit"
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-300/60 bg-gradient-to-r from-signal to-signalDark px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-fog transition hover:brightness-110 sm:w-auto sm:px-6 sm:text-sm"
+                      disabled={isSubmitting}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-300/60 bg-gradient-to-r from-signal to-signalDark px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-fog transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:px-6 sm:text-sm"
                     >
-                      Agendar Vistoria Técnica
+                      {isSubmitting ? "Enviando..." : "Agendar Vistoria Técnica"}
                       <ArrowUpRight size={18} />
                     </button>
                     <a
@@ -788,6 +997,15 @@ function App() {
                       <MessageCircle size={18} />
                     </a>
                   </div>
+                  {formFeedback.message ? (
+                    <p
+                      className={`mt-3 text-xs font-medium sm:text-sm ${
+                        formFeedback.type === "success" ? "text-emerald-700" : "text-red-700"
+                      }`}
+                    >
+                      {formFeedback.message}
+                    </p>
+                  ) : null}
                 </div>
               </form>
 
@@ -855,6 +1073,113 @@ function App() {
         Falar com nosso time
         <MessageCircle size={16} />
       </a>
+
+      {selectedProject ? (
+        <div
+          className="fixed inset-0 z-[70] flex items-end bg-ink/70 p-0 backdrop-blur-sm sm:items-center sm:justify-center sm:p-4"
+          onClick={closeProjectModal}
+        >
+          <div
+            className="max-h-[95vh] w-full overflow-y-auto rounded-t-3xl border border-sky-300/55 bg-white p-4 shadow-brutal sm:max-h-[90vh] sm:max-w-5xl sm:rounded-3xl sm:p-6"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-4 flex items-start justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-bold sm:text-2xl">
+                  {selectedProject.project || selectedProject.city}
+                </h3>
+                <p className="mt-1 text-sm text-ink/75">{selectedProject.city}</p>
+              </div>
+              <button
+                type="button"
+                onClick={closeProjectModal}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-sky-300/55 text-ink transition hover:bg-concrete"
+                aria-label="Fechar projeto"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-[1.45fr_1fr]">
+              <div>
+                <div className="relative overflow-hidden rounded-2xl border border-sky-300/55 bg-concrete/60">
+                  <img
+                    src={selectedProject.gallery[activeProjectPhoto].src}
+                    alt={selectedProject.gallery[activeProjectPhoto].alt}
+                    className="h-64 w-full object-cover sm:h-80"
+                  />
+                  {selectedProject.gallery.length > 1 ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={goToPreviousPhoto}
+                        className="absolute left-3 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-fog/80 bg-ink/55 text-fog transition hover:bg-ink"
+                        aria-label="Foto anterior"
+                      >
+                        <ChevronLeft size={16} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={goToNextPhoto}
+                        className="absolute right-3 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-fog/80 bg-ink/55 text-fog transition hover:bg-ink"
+                        aria-label="Próxima foto"
+                      >
+                        <ChevronRight size={16} />
+                      </button>
+                    </>
+                  ) : null}
+                </div>
+
+                {selectedProject.gallery.length > 1 ? (
+                  <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-6">
+                    {selectedProject.gallery.map((photo, index) => (
+                      <button
+                        key={`${photo.src}-${index}`}
+                        type="button"
+                        onClick={() => setActiveProjectPhoto(index)}
+                        className={`overflow-hidden rounded-xl border ${
+                          activeProjectPhoto === index ? "border-signal" : "border-sky-300/55"
+                        }`}
+                      >
+                        <img src={photo.src} alt={photo.alt} className="h-16 w-full object-cover sm:h-20" loading="lazy" />
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+
+              <aside className="rounded-2xl border border-sky-300/55 bg-concrete/60 p-5">
+                <h4 className="text-lg font-semibold">Informações do Projeto</h4>
+                <div className="mt-4 space-y-2 text-sm text-ink/85">
+                  <p>
+                    <span className="font-semibold">Cidade:</span> {selectedProject.city}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Tipo:</span> {selectedProject.type}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Área:</span> {selectedProject.area}
+                  </p>
+                  <p className="pt-2">
+                    <span className="font-semibold">Resultado:</span> {selectedProject.result}
+                  </p>
+                </div>
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero detalhes técnicos do projeto ${encodeURIComponent(
+                    selectedProject.project || selectedProject.city
+                  )}.`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full border border-emerald-500 bg-emerald-500 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em] text-white transition hover:brightness-95 sm:text-sm"
+                >
+                  Falar com nosso time
+                  <MessageCircle size={16} />
+                </a>
+              </aside>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <script
         type="application/ld+json"
