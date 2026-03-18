@@ -26,14 +26,19 @@ const PHONE = "+55 19 98611-4474";
 const WHATSAPP_NUMBER = "5519986114474";
 const TARGET_AREA = "Estado de São Paulo";
 const BRAND_NAME = "E2SPinturas";
-const FORM_WEBHOOK_URL = "https://automacao2.themidiamarketing.com.br/webhook/form-e2s";
+const WHATSAPP_BASE_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
+const buildWhatsAppUrl = (text) => `${WHATSAPP_BASE_URL}?text=${encodeURIComponent(text)}`;
+const PRIMARY_WHATSAPP_URL = buildWhatsAppUrl(
+  `Olá! Quero agendar uma vistoria técnica da ${BRAND_NAME}.`
+);
+const TEAM_WHATSAPP_URL = buildWhatsAppUrl(`Olá! Quero falar com o time técnico da ${BRAND_NAME}.`);
 
 const navLinks = [
   { label: "Método", href: "#metodo" },
   { label: "Serviços", href: "#servicos" },
   { label: "Portfólio", href: "#portfolio" },
   { label: "Atendimento", href: "#atendimento" },
-  { label: "Vistoria", href: "#vistoria" }
+  { label: "Vistoria", href: PRIMARY_WHATSAPP_URL }
 ];
 
 const authorityStats = [
@@ -41,15 +46,6 @@ const authorityStats = [
   "Atendemos em toda SP",
   "Responsável Técnico com CREA",
   "Garantia formal por contrato"
-];
-
-const logoPlaceholders = [
-  "LOGO CLIENTE 01",
-  "LOGO CLIENTE 02",
-  "LOGO CLIENTE 03",
-  "LOGO CLIENTE 04",
-  "LOGO CLIENTE 05",
-  "LOGO CLIENTE 06"
 ];
 
 const testimonials = [
@@ -62,39 +58,6 @@ const testimonials = [
     role: "Administradora de Condomínios",
     text: "A diferença foi o método: diagnóstico, sistema de pintura correto e entrega com garantia formal. Estrutura real para atender todo o estado de São Paulo.",
     author: "Gestora Regional | Interior de SP"
-  }
-];
-
-const failurePoints = [
-  {
-    title: "Falta de preparo técnico",
-    erro: "Diagnóstico superficial e início sem plano de intervenção.",
-    consequencia: "Descascamento precoce e aumento de manutenção corretiva.",
-    solucao: "Inspeção detalhada, ensaios de aderência e planejamento técnico por frente." 
-  },
-  {
-    title: "Sistema de pintura inadequado",
-    erro: "Produto definido por preço e não por substrato ou exposição.",
-    consequencia: "Perda rápida de desempenho estético e proteção insuficiente.",
-    solucao: "Especificação do sistema conforme base, clima e criticidade da fachada."
-  },
-  {
-    title: "Ausência de tratamento de fissuras",
-    erro: "Fissuras recebem apenas pintura de acabamento.",
-    consequencia: "Retorno de infiltração, manchas e degradação da superfície.",
-    solucao: "Tratamento técnico de fissuras antes da pintura final."
-  },
-  {
-    title: "Impermeabilização insuficiente",
-    erro: "Selagem incompleta e falta de proteção em pontos críticos.",
-    consequencia: "Umidade recorrente, bolhas e patologias em ciclo curto.",
-    solucao: "Camada de impermeabilização compatível com o sistema adotado."
-  },
-  {
-    title: "Execução sem responsável técnico",
-    erro: "Obra sem governança técnica e controle documentado.",
-    consequencia: "Risco jurídico, qualidade inconsistente e baixa rastreabilidade.",
-    solucao: "Condução com responsável técnico, ART e checklist de qualidade."
   }
 ];
 
@@ -151,7 +114,29 @@ const services = [
   }
 ];
 
-const portfolioFilters = ["Todos", "Condomínio", "Comercial", "Corporativo", "Altura"];
+const portfolioFilters = ["Todos", "Condomínio", "Comercial", "Corporativo"];
+
+const buildProjectGallery = (modules, projectName) => {
+  let imageNumber = 0;
+  return Object.entries(modules)
+    .sort(([pathA], [pathB]) =>
+      pathA.localeCompare(pathB, undefined, { numeric: true, sensitivity: "base" })
+    )
+    .map(([path, src]) => {
+      const filename = path.split("/").pop() || "";
+      const isCover = /^capa\./i.test(filename);
+      if (isCover) {
+        return { src, alt: `Capa do projeto ${projectName}`, isCover };
+      }
+
+      imageNumber += 1;
+      return {
+        src,
+        alt: `Projeto ${projectName} - imagem ${imageNumber}`,
+        isCover
+      };
+    });
+};
 
 const galeriaShoppingCover = new URL("../imagens/Galeria Shopping/capa.png", import.meta.url).href;
 
@@ -198,6 +183,245 @@ const galeriaShoppingPhotos = [
   }
 ];
 
+const ilhaCaribeCover = new URL("../imagens/condomínio ilha do Caribe campinas/capa.jpeg", import.meta.url).href;
+
+const ilhaCaribePhotos = [
+  {
+    src: ilhaCaribeCover,
+    alt: "Capa do projeto Condomínio Ilha do Caribe em Campinas"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.40.jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 1"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.49.jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 2"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.50.jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 3"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.50 (1).jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 4"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.50 (2).jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 5"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.50 (3).jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 6"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.52.jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 7"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.52 (1).jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 8"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.53.jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 9"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.54.jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 10"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.58.jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 11"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.58 (1).jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 12"
+  },
+  {
+    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.59.jpeg", import.meta.url).href,
+    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 13"
+  }
+];
+
+const boaNovaCover = new URL("../imagens/condomínio boa nova Hortolândia /capa.jpg", import.meta.url).href;
+
+const boaNovaPhotos = [
+  {
+    src: boaNovaCover,
+    alt: "Capa do projeto Condomínio Boa Nova em Hortolândia"
+  },
+  {
+    src: new URL("../imagens/condomínio boa nova Hortolândia /20180307_115623.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 1"
+  },
+  {
+    src: new URL("../imagens/condomínio boa nova Hortolândia /20180315_074629.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 2"
+  },
+  {
+    src: new URL("../imagens/condomínio boa nova Hortolândia /20180320_075030.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 3"
+  },
+  {
+    src: new URL("../imagens/condomínio boa nova Hortolândia /20180322_182649.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 4"
+  },
+  {
+    src: new URL("../imagens/condomínio boa nova Hortolândia /20180404_153036.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 5"
+  },
+  {
+    src: new URL("../imagens/condomínio boa nova Hortolândia /20180410_153955.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 6"
+  },
+  {
+    src: new URL("../imagens/condomínio boa nova Hortolândia /20180416_080414.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 7"
+  }
+];
+
+const ibmBtCover = new URL("../imagens/IBM BT telecomunicações/capa.jpg", import.meta.url).href;
+
+const ibmBtPhotos = [
+  {
+    src: ibmBtCover,
+    alt: "Capa do projeto IBM BT Telecomunicações em Hortolândia"
+  },
+  {
+    src: new URL("../imagens/IBM BT telecomunicações/20190107_102526.jpg", import.meta.url).href,
+    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 1"
+  },
+  {
+    src: new URL("../imagens/IBM BT telecomunicações/20190107_105552.jpg", import.meta.url).href,
+    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 2"
+  },
+  {
+    src: new URL("../imagens/IBM BT telecomunicações/20190204_152110.jpg", import.meta.url).href,
+    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 3"
+  },
+  {
+    src: new URL("../imagens/IBM BT telecomunicações/20190204_152117.jpg", import.meta.url).href,
+    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 4"
+  },
+  {
+    src: new URL("../imagens/IBM BT telecomunicações/20190207_152229.jpg", import.meta.url).href,
+    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 5"
+  },
+  {
+    src: new URL("../imagens/IBM BT telecomunicações/20190208_082402.jpg", import.meta.url).href,
+    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 6"
+  },
+  {
+    src: new URL("../imagens/IBM BT telecomunicações/20190208_092554.jpg", import.meta.url).href,
+    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 7"
+  },
+  {
+    src: new URL("../imagens/IBM BT telecomunicações/20190225_115907.jpg", import.meta.url).href,
+    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 8"
+  }
+];
+
+const vilaAbaeteCover = new URL("../imagens/condomínio vila Abaeté campinas/capa.jpg", import.meta.url).href;
+
+const vilaAbaetePhotos = [
+  {
+    src: vilaAbaeteCover,
+    alt: "Capa do projeto Condomínio Vila Abaeté Campinas"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200520_090704.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 1"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200520_091606.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 2"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200520_122836.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 3"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200520_123714.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 4"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200520_190642.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 5"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200521_120451.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 6"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200521_123323.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 7"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200521_123427.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 8"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200521_151654.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 9"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200526_133326.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 10"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200527_185705.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 11"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200527_190004.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 12"
+  },
+  {
+    src: new URL("../imagens/condomínio vila Abaeté campinas/20200527_190227.jpg", import.meta.url).href,
+    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 13"
+  }
+];
+
+const fontanaGardenModules = import.meta.glob("../imagens/condomínio Fontana garden campinas/*.{jpg,jpeg,png}", {
+  eager: true,
+  import: "default"
+});
+
+const fontanaGardenPhotos = buildProjectGallery(fontanaGardenModules, "Condomínio Fontana Garden Campinas");
+const fontanaGardenCover =
+  fontanaGardenPhotos.find((photo) => photo.isCover)?.src || fontanaGardenPhotos[0]?.src || "";
+
+const sesiIndaiatubaModules = import.meta.glob("../imagens/SESI Indaiatuba/*.{jpg,jpeg,png}", {
+  eager: true,
+  import: "default"
+});
+
+const sesiIndaiatubaPhotos = buildProjectGallery(sesiIndaiatubaModules, "SESI Indaiatuba");
+const sesiIndaiatubaCover =
+  sesiIndaiatubaPhotos.find((photo) => photo.isCover)?.src || sesiIndaiatubaPhotos[0]?.src || "";
+
+const autolinkModules = import.meta.glob("../imagens/autolink centro automotivo campinas/*.{jpg,jpeg,png}", {
+  eager: true,
+  import: "default"
+});
+
+const autolinkPhotos = buildProjectGallery(autolinkModules, "Autolink Centro Automotivo Campinas");
+const autolinkCover =
+  autolinkPhotos.find((photo) => photo.isCover)?.src || autolinkPhotos[0]?.src || "";
+
+const shoppingDomPedroModules = import.meta.glob("../imagens/Shopping Dom Pedro /*.{jpg,jpeg,png}", {
+  eager: true,
+  import: "default"
+});
+
+const shoppingDomPedroPhotos = buildProjectGallery(
+  shoppingDomPedroModules,
+  "Shopping Dom Pedro - Parte Interna e Corredores"
+);
+const shoppingDomPedroCover =
+  shoppingDomPedroPhotos.find((photo) => photo.isCover)?.src || shoppingDomPedroPhotos[0]?.src || "";
+
 const portfolioItems = [
   {
     project: "Galeria Shopping",
@@ -209,46 +433,79 @@ const portfolioItems = [
     gallery: galeriaShoppingPhotos
   },
   {
-    city: "São Paulo - SP",
-    type: "Corporativo",
-    area: "12.800 m²",
-    result: "Redução de retrabalho e padrão visual corporativo.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80"
-  },
-  {
+    project: "Condomínio Ilha do Caribe",
     city: "Campinas - SP",
     type: "Condomínio",
-    area: "9.400 m²",
-    result: "Execução com prédio ocupado e cronograma estável.",
-    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80"
+    area: "Projeto realizado",
+    result: "Pintura externa condominial com preparação de superfície e execução técnica por etapas.",
+    image: ilhaCaribeCover,
+    gallery: ilhaCaribePhotos
   },
   {
-    city: "Santos - SP",
-    type: "Comercial",
-    area: "7.900 m²",
-    result: "Fachada protegida contra umidade e insolação intensa.",
-    image: "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=1200&q=80"
-  },
-  {
-    city: "Sorocaba - SP",
-    type: "Altura",
-    area: "10.300 m²",
-    result: "Operação NR-35 com zero ocorrência e entrega técnica.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80"
-  },
-  {
-    city: "Ribeirão Preto - SP",
+    project: "Condomínio Boa Nova Hortolândia - Hidrojateamento de Fachada",
+    city: "Hortolândia - SP",
     type: "Condomínio",
-    area: "8.100 m²",
-    result: "Recuperação de superfície com maior durabilidade.",
-    image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=80"
+    area: "Projeto realizado",
+    result: "Hidrojateamento técnico de fachada com limpeza profunda e preparo de base para manutenção predial.",
+    highlights: ["Hidrojateamento da fachada", "Preparo técnico de superfície"],
+    image: boaNovaCover,
+    gallery: boaNovaPhotos
   },
   {
-    city: "São José dos Campos - SP",
+    project: "IBM BT telecomunicações Hortolândia",
+    city: "Hortolândia - SP",
     type: "Corporativo",
-    area: "11.600 m²",
-    result: "Entrega por etapas sem impacto crítico na operação.",
-    image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1200&q=80"
+    area: "Projeto realizado",
+    result: "Intervenção técnica em fachada corporativa com foco em limpeza, restauração visual e padronização.",
+    highlights: ["Hidrojateamento da fachada", "Execução em ambiente corporativo ativo"],
+    image: ibmBtCover,
+    gallery: ibmBtPhotos
+  },
+  {
+    project: "Condomínio Vila Abaeté Campinas",
+    city: "Campinas - SP",
+    type: "Condomínio",
+    area: "Projeto realizado",
+    result: "Pintura externa condominial com preparo técnico, padronização visual e controle por etapas.",
+    image: vilaAbaeteCover,
+    gallery: vilaAbaetePhotos
+  },
+  {
+    project: "Condomínio Fontana Garden Campinas",
+    city: "Campinas - SP",
+    type: "Condomínio",
+    area: "Projeto realizado",
+    result: "Pintura externa condominial com recuperação de superfície e acabamento técnico de alta durabilidade.",
+    image: fontanaGardenCover,
+    gallery: fontanaGardenPhotos
+  },
+  {
+    project: "SESI Indaiatuba",
+    city: "Indaiatuba - SP",
+    type: "Corporativo",
+    area: "Projeto realizado",
+    result: "Intervenção técnica de fachada com preparação de superfície e padronização visual para ambiente institucional.",
+    image: sesiIndaiatubaCover,
+    gallery: sesiIndaiatubaPhotos
+  },
+  {
+    project: "Autolink Centro Automotivo Campinas",
+    city: "Campinas - SP",
+    type: "Comercial",
+    area: "Projeto realizado",
+    result: "Execução técnica em fachada comercial com recuperação de superfície e acabamento para operação automotiva.",
+    image: autolinkCover,
+    gallery: autolinkPhotos
+  },
+  {
+    project: "Shopping Dom Pedro - Parte Interna e Corredores",
+    city: "Campinas - SP",
+    type: "Comercial",
+    area: "Projeto realizado",
+    result: "Pintura técnica de áreas internas e corredores com padronização visual e execução por etapas.",
+    highlights: ["Parte interna e corredores", "Ambiente comercial em operação"],
+    image: shoppingDomPedroCover,
+    gallery: shoppingDomPedroPhotos
   }
 ];
 
@@ -292,14 +549,16 @@ const faqItems = [
 const sectionCta = (label = "Agendar Vistoria Técnica") => (
   <div className="mt-8 flex flex-wrap gap-3">
     <a
-      href="#vistoria"
+      href={PRIMARY_WHATSAPP_URL}
+      target="_blank"
+      rel="noreferrer"
       className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-300/60 bg-gradient-to-r from-signal to-signalDark px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-fog transition hover:-translate-y-1 hover:brightness-110 sm:w-auto sm:px-6 sm:text-sm"
     >
       {label}
       <ArrowUpRight size={18} />
     </a>
     <a
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da ${BRAND_NAME}.`}
+      href={TEAM_WHATSAPP_URL}
       target="_blank"
       rel="noreferrer"
       className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-300/60 bg-white px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-ink transition hover:bg-ink hover:text-fog sm:w-auto sm:px-6 sm:text-sm"
@@ -313,8 +572,6 @@ const sectionCta = (label = "Agendar Vistoria Técnica") => (
 function App() {
   const pageRef = useRef(null);
   const [activeFilter, setActiveFilter] = useState("Todos");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formFeedback, setFormFeedback] = useState({ type: "", message: "" });
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeProjectPhoto, setActiveProjectPhoto] = useState(0);
 
@@ -322,55 +579,6 @@ function App() {
     activeFilter === "Todos"
       ? portfolioItems
       : portfolioItems.filter((item) => item.type === activeFilter);
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    if (isSubmitting) return;
-
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const payload = {
-      nome: String(formData.get("nome") || "").trim(),
-      telefone: String(formData.get("telefone") || "").trim(),
-      cidade: String(formData.get("cidade") || "").trim(),
-      tipo_imovel: String(formData.get("tipoImovel") || "").trim(),
-      area_aproximada: String(formData.get("areaAproximada") || "").trim(),
-      descricao_problema: String(formData.get("problema") || "").trim(),
-      origem: "landing-e2spinturas",
-      pagina: typeof window !== "undefined" ? window.location.href : "",
-      timestamp: new Date().toISOString()
-    };
-
-    try {
-      setIsSubmitting(true);
-      setFormFeedback({ type: "", message: "" });
-
-      const response = await fetch(FORM_WEBHOOK_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (!response.ok) {
-        throw new Error(`Webhook retornou ${response.status}`);
-      }
-
-      form.reset();
-      setFormFeedback({
-        type: "success",
-        message: "Dados enviados com sucesso. Nosso time vai entrar em contato."
-      });
-    } catch (error) {
-      setFormFeedback({
-        type: "error",
-        message: "Não foi possível enviar agora. Tente novamente ou fale no WhatsApp."
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   const openProjectModal = (project) => {
     const gallery =
@@ -514,7 +722,7 @@ function App() {
             "@type": "Offer",
             priceCurrency: "BRL",
             availability: "https://schema.org/InStock",
-            url: "https://alturaprime.com.br/#vistoria",
+            url: PRIMARY_WHATSAPP_URL,
             description: "Agendamento de vistoria técnica com diagnóstico especializado para fachadas prediais.",
             seller: {
               "@id": "https://alturaprime.com.br/#negocio"
@@ -548,13 +756,21 @@ function App() {
           <p className="font-heading text-lg leading-none tracking-[0.04em] sm:text-xl md:text-2xl">{BRAND_NAME}</p>
           <nav className="hidden items-center gap-4 text-xs font-semibold uppercase tracking-[0.08em] md:flex lg:gap-5">
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="transition hover:text-signal">
+              <a
+                key={link.href}
+                href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                className="transition hover:text-signal"
+              >
                 {link.label}
               </a>
             ))}
           </nav>
           <a
-            href="#vistoria"
+            href={PRIMARY_WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
             className="inline-flex items-center gap-1.5 rounded-full border border-sky-300/60 bg-gradient-to-r from-signal to-signalDark px-3 py-2 text-[10px] font-bold uppercase tracking-[0.08em] text-fog transition hover:brightness-110 sm:gap-2 sm:px-4 sm:text-xs md:text-sm"
           >
             Agendar Vistoria Técnica
@@ -598,7 +814,9 @@ function App() {
 
               <div className="hero-cta mt-8 flex flex-wrap gap-3">
                 <a
-                  href="#vistoria"
+                  href={PRIMARY_WHATSAPP_URL}
+                  target="_blank"
+                  rel="noreferrer"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-fog/70 bg-gradient-to-r from-signal to-signalDark px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-fog transition hover:brightness-110 sm:w-auto sm:px-6 sm:text-sm"
                 >
                   Agendar Vistoria Técnica
@@ -612,7 +830,7 @@ function App() {
                   <LayoutGrid size={18} />
                 </a>
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da ${BRAND_NAME}.`}
+                  href={TEAM_WHATSAPP_URL}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-fog/70 bg-fog/10 px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-fog transition hover:bg-fog hover:text-ink sm:w-auto sm:px-6 sm:text-sm"
@@ -633,17 +851,6 @@ function App() {
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink/80">
             Gestão técnica, documentação e governança de obra para contratos prediais de alto impacto.
           </p>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-3 md:grid-cols-6">
-            {logoPlaceholders.map((logo) => (
-              <div
-                key={logo}
-                className="flex h-16 items-center justify-center rounded-2xl border border-sky-300/55 bg-concrete/85 text-xs font-semibold tracking-[0.08em] text-ink/70"
-              >
-                {logo}
-              </div>
-            ))}
-          </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
             <div className="grid gap-4 md:grid-cols-2">
@@ -680,37 +887,6 @@ function App() {
             </aside>
           </div>
           {sectionCta()}
-        </section>
-
-        <section className="border-y border-sky-900/15 bg-concrete/75 py-16 md:py-24" data-reveal>
-          <div className="mx-auto max-w-6xl px-4 md:px-6">
-            <h2 className="max-w-3xl text-2xl font-bold sm:text-3xl md:text-4xl">
-              Por que grande parte das pinturas prediais falham antes de 3 anos?
-            </h2>
-            <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink/80">
-              Decisão técnica ruim compromete desempenho, segurança e custo total do ativo.
-            </p>
-
-            <div className="mt-10 grid gap-4 lg:grid-cols-2">
-              {failurePoints.map((item) => (
-                <article key={item.title} className="rounded-2xl border border-sky-300/55 bg-white p-6 shadow-brutalSoft">
-                  <h3 className="text-xl font-semibold">{item.title}</h3>
-                  <div className="mt-4 space-y-3 text-sm leading-relaxed">
-                    <p>
-                      <span className="font-semibold">Erro:</span> {item.erro}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Consequência:</span> {item.consequencia}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Como resolvemos:</span> {item.solucao}
-                    </p>
-                  </div>
-                </article>
-              ))}
-            </div>
-            {sectionCta("Agendar Diagnóstico Técnico")}
-          </div>
         </section>
 
         <section id="metodo" className="border-b border-sky-900/15 bg-ink py-16 text-fog md:py-24" data-reveal>
@@ -753,7 +929,9 @@ function App() {
                   <span className="font-semibold">O que evita:</span> {service.evita}
                 </p>
                 <a
-                  href="#vistoria"
+                  href={PRIMARY_WHATSAPP_URL}
+                  target="_blank"
+                  rel="noreferrer"
                   className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-signal transition hover:text-signalDark"
                 >
                   {service.cta}
@@ -798,10 +976,15 @@ function App() {
                 >
                   <img src={work.image} alt={`Obra predial em ${work.city}`} className="h-44 w-full object-cover" loading="lazy" />
                   <div className="p-5">
-                    <h3 className="text-lg font-semibold">{work.city}</h3>
+                    <h3 className="text-lg font-semibold">{work.project || work.city}</h3>
                     <p className="mt-2 text-sm text-ink/80">Tipo: {work.type}</p>
                     <p className="text-sm text-ink/80">Área: {work.area}</p>
                     <p className="mt-3 text-sm leading-relaxed text-ink/85">Resultado: {work.result}</p>
+                    {work.highlights?.length ? (
+                      <p className="mt-2 text-sm leading-relaxed text-ink/85">
+                        <span className="font-semibold">Destaques:</span> {work.highlights.join(" • ")}
+                      </p>
+                    ) : null}
                     <p className="mt-4 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-signal">
                       Ver projeto completo
                       <ArrowUpRight size={14} />
@@ -812,33 +995,6 @@ function App() {
             </div>
             {sectionCta("Ver disponibilidade de equipe")}
           </div>
-        </section>
-
-        <section className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24" data-reveal>
-          <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">Projeto Realizado: Galeria Shopping</h2>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink/80">
-            Registro completo da execução técnica em fachada comercial. Abaixo estão a capa do projeto e todas as imagens de obra.
-          </p>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {galeriaShoppingPhotos.map((photo, index) => (
-              <figure
-                key={photo.src}
-                className="overflow-hidden rounded-2xl border border-sky-300/55 bg-white shadow-brutalSoft"
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="h-52 w-full object-cover transition duration-300 hover:scale-[1.03] sm:h-56"
-                  loading="lazy"
-                />
-                <figcaption className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-ink/75">
-                  Galeria Shopping - Imagem {String(index + 1).padStart(2, "0")}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-          {sectionCta("Quero uma vistoria técnica para obra comercial")}
         </section>
 
         <section id="atendimento" className="border-b border-sky-900/15 bg-ink py-16 text-fog md:py-24" data-reveal>
@@ -901,113 +1057,34 @@ function App() {
           <div className="mx-auto max-w-6xl px-4 md:px-6">
             <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">Solicite uma Análise Técnica da Sua Fachada</h2>
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink/80">
-              Envie os dados do ativo e receba direcionamento técnico para tomada de decisão.
+              Todo atendimento foi centralizado no WhatsApp para resposta mais rápida do time técnico.
             </p>
 
             <div className="mt-8 grid gap-6 lg:grid-cols-[1.45fr_1fr]">
-              <form
-                className="grid gap-4 rounded-3xl border border-sky-300/55 bg-white p-6 shadow-brutalSoft md:grid-cols-2"
-                onSubmit={handleFormSubmit}
-              >
-                <label className="text-sm font-semibold">
-                  Nome
-                  <input
-                    type="text"
-                    name="nome"
-                    required
-                    className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
-                  />
-                </label>
-
-                <label className="text-sm font-semibold">
-                  Telefone
-                  <input
-                    type="tel"
-                    name="telefone"
-                    required
-                    className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
-                  />
-                </label>
-
-                <label className="text-sm font-semibold">
-                  Cidade
-                  <input
-                    type="text"
-                    name="cidade"
-                    required
-                    className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
-                  />
-                </label>
-
-                <label className="text-sm font-semibold">
-                  Tipo de imóvel
-                  <select
-                    name="tipoImovel"
-                    required
-                    defaultValue=""
-                    className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
-                  >
-                    <option value="" disabled>
-                      Selecione
-                    </option>
-                    <option>Condomínio Residencial</option>
-                    <option>Condomínio Comercial</option>
-                    <option>Prédio Corporativo</option>
-                    <option>Centro Logístico / Industrial</option>
-                  </select>
-                </label>
-
-                <label className="text-sm font-semibold">
-                  Área aproximada
-                  <input
-                    type="text"
-                    name="areaAproximada"
-                    placeholder="Ex: 8.000 m²"
-                    className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
-                  />
-                </label>
-
-                <label className="text-sm font-semibold md:col-span-2">
-                  Descreva o problema
-                  <textarea
-                    name="problema"
-                    rows={5}
-                    placeholder="Informe sintomas da fachada, urgência e restrições operacionais."
-                    className="mt-2 w-full rounded-xl border border-sky-300/55 bg-fog px-3 py-2 outline-none focus:border-signal"
-                  />
-                </label>
-
-                <div className="md:col-span-2">
-                  <div className="flex flex-wrap gap-3">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-300/60 bg-gradient-to-r from-signal to-signalDark px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-fog transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:px-6 sm:text-sm"
-                    >
-                      {isSubmitting ? "Enviando..." : "Agendar Vistoria Técnica"}
-                      <ArrowUpRight size={18} />
-                    </button>
-                    <a
-                      href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da ${BRAND_NAME}.`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-300/60 px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-ink transition hover:bg-ink hover:text-fog sm:w-auto sm:px-6 sm:text-sm"
-                    >
-                      Falar com nosso time
-                      <MessageCircle size={18} />
-                    </a>
+              <article className="rounded-3xl border border-sky-300/55 bg-white p-6 shadow-brutalSoft">
+                <h3 className="text-xl font-semibold">Atendimento direto com engenharia técnica</h3>
+                <p className="mt-4 text-sm leading-relaxed text-ink/80">
+                  Clique no botão e envie as informações iniciais do seu prédio. Nosso time retorna com direcionamento,
+                  estimativa de escopo e próximos passos da vistoria.
+                </p>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-sky-200 bg-fog px-4 py-3 text-sm font-medium text-ink/80">
+                    Resposta rápida via WhatsApp
                   </div>
-                  {formFeedback.message ? (
-                    <p
-                      className={`mt-3 text-xs font-medium sm:text-sm ${
-                        formFeedback.type === "success" ? "text-emerald-700" : "text-red-700"
-                      }`}
-                    >
-                      {formFeedback.message}
-                    </p>
-                  ) : null}
+                  <div className="rounded-2xl border border-sky-200 bg-fog px-4 py-3 text-sm font-medium text-ink/80">
+                    Vistoria técnica sem compromisso
+                  </div>
                 </div>
-              </form>
+                <a
+                  href={PRIMARY_WHATSAPP_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-300/60 bg-gradient-to-r from-signal to-signalDark px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-fog transition hover:brightness-110 sm:w-auto sm:px-6 sm:text-sm"
+                >
+                  Agendar Vistoria Técnica no WhatsApp
+                  <ArrowUpRight size={18} />
+                </a>
+              </article>
 
               <aside className="rounded-3xl border border-sky-300/55 bg-ink p-6 text-fog shadow-brutal">
                 <h3 className="text-xl font-semibold">Bloco de Confiança</h3>
@@ -1030,7 +1107,7 @@ function App() {
                   </p>
                 </div>
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero agendar uma vistoria técnica predial.`}
+                  href={TEAM_WHATSAPP_URL}
                   target="_blank"
                   rel="noreferrer"
                   className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full border border-fog/60 px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-fog transition hover:bg-fog hover:text-ink sm:w-auto sm:text-sm"
@@ -1055,7 +1132,7 @@ function App() {
       </footer>
 
       <a
-        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da ${BRAND_NAME}.`}
+        href={TEAM_WHATSAPP_URL}
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-4 left-4 right-4 z-50 inline-flex items-center justify-center gap-2 rounded-full border border-sky-300/65 bg-gradient-to-r from-signal to-signalDark px-4 py-3 text-xs font-bold uppercase tracking-[0.08em] text-fog shadow-brutal md:hidden"
@@ -1065,7 +1142,7 @@ function App() {
       </a>
 
       <a
-        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero falar com o time técnico da ${BRAND_NAME}.`}
+        href={TEAM_WHATSAPP_URL}
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full border border-sky-300/65 bg-gradient-to-r from-signal to-signalDark px-5 py-3 text-sm font-bold uppercase tracking-[0.08em] text-fog shadow-brutal transition hover:-translate-y-1 lg:inline-flex"
@@ -1163,11 +1240,16 @@ function App() {
                   <p className="pt-2">
                     <span className="font-semibold">Resultado:</span> {selectedProject.result}
                   </p>
+                  {selectedProject.highlights?.length ? (
+                    <p className="pt-2">
+                      <span className="font-semibold">Destaques:</span> {selectedProject.highlights.join(" • ")}
+                    </p>
+                  ) : null}
                 </div>
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Quero detalhes técnicos do projeto ${encodeURIComponent(
-                    selectedProject.project || selectedProject.city
-                  )}.`}
+                  href={buildWhatsAppUrl(
+                    `Olá! Quero detalhes técnicos do projeto ${selectedProject.project || selectedProject.city}.`
+                  )}
                   target="_blank"
                   rel="noreferrer"
                   className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full border border-emerald-500 bg-emerald-500 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em] text-white transition hover:brightness-95 sm:text-sm"
