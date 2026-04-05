@@ -21,20 +21,20 @@ import {
   Wrench,
   X
 } from "lucide-react";
-
-const PHONE = "+55 19 98611-4474";
-const WHATSAPP_NUMBER = "5519986114474";
-const TARGET_AREA = "Estado de São Paulo";
-const BRAND_NAME = "E2SPinturas";
-const WHATSAPP_BASE_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
-const buildWhatsAppUrl = (text) => `${WHATSAPP_BASE_URL}?text=${encodeURIComponent(text)}`;
-const PRIMARY_WHATSAPP_URL = buildWhatsAppUrl(
-  `Olá! Quero agendar uma vistoria técnica da ${BRAND_NAME}.`
-);
-const TEAM_WHATSAPP_URL = buildWhatsAppUrl(`Olá! Quero falar com o time técnico da ${BRAND_NAME}.`);
+import NicheLandingPage from "./pages/NicheLandingPage";
+import { nichePageData } from "./data/nichePageData";
+import {
+  BRAND_NAME,
+  PHONE,
+  PRIMARY_WHATSAPP_URL,
+  TARGET_AREA,
+  TEAM_WHATSAPP_URL,
+  buildWhatsAppUrl
+} from "./lib/siteConfig";
 
 const navLinks = [
-  { label: "Método", href: "#metodo" },
+  { label: "Condomínio", href: "/condominio" },
+  { label: "Empresa", href: "/empresa" },
   { label: "Serviços", href: "#servicos" },
   { label: "Portfólio", href: "#portfolio" },
   { label: "Atendimento", href: "#atendimento" },
@@ -574,6 +574,11 @@ function App() {
   const [activeFilter, setActiveFilter] = useState("Todos");
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeProjectPhoto, setActiveProjectPhoto] = useState(0);
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname.replace(/\/+$/, "") || "/" : "/";
+  const isCondominioPage = pathname === "/condominio";
+  const isEmpresaPage = pathname === "/empresa";
+  const isHomePage = !isCondominioPage && !isEmpresaPage;
 
   const filteredPortfolio =
     activeFilter === "Todos"
@@ -610,6 +615,8 @@ function App() {
   };
 
   useEffect(() => {
+    if (!isHomePage) return undefined;
+
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
       gsap
@@ -633,9 +640,11 @@ function App() {
     }, pageRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isHomePage]);
 
   useEffect(() => {
+    if (!isHomePage) return;
+
     document.title = `Pintura Predial no Estado de São Paulo | ${BRAND_NAME}`;
     const descriptionTag = document.querySelector('meta[name="description"]');
     if (descriptionTag) {
@@ -644,7 +653,7 @@ function App() {
         "Empresa de pintura predial para todo o estado de São Paulo. Execução técnica, NR-35, ART e garantia contratual para condomínios e empresas."
       );
     }
-  }, []);
+  }, [isHomePage]);
 
   useEffect(() => {
     if (!selectedProject) return;
@@ -748,6 +757,14 @@ function App() {
     []
   );
 
+  if (isCondominioPage) {
+    return <NicheLandingPage page={nichePageData.condominio} />;
+  }
+
+  if (isEmpresaPage) {
+    return <NicheLandingPage page={nichePageData.empresa} />;
+  }
+
   return (
     <div ref={pageRef} className="min-h-screen bg-fog text-ink">
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_12%_12%,rgba(46,168,255,0.24),transparent_36%),radial-gradient(circle_at_88%_4%,rgba(20,119,209,0.18),transparent_33%)]" />
@@ -843,6 +860,59 @@ function App() {
                 Atendimento em todo o estado de São Paulo.
               </p>
             </div>
+          </div>
+        </section>
+
+        <section id="segmentos" className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20" data-reveal>
+          <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">Segmentos Atendidos com Página Especializada</h2>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink/80">
+            Criamos rotas específicas para cada perfil de contratação, com argumentos técnicos e abordagem segmentada.
+          </p>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <a
+              href="/condominio"
+              className="group overflow-hidden rounded-3xl border border-sky-300/55 bg-white shadow-brutalSoft transition hover:-translate-y-1 hover:shadow-brutal"
+            >
+              <img
+                src="/images/condominio/condominio-hero.jpg"
+                alt="pintura predial para condomínios"
+                className="h-52 w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                loading="lazy"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-semibold">Pintura Predial para Condomínios</h3>
+                <p className="mt-3 text-sm leading-relaxed text-ink/80">
+                  Página dedicada para síndicos e administradoras com foco em cronograma, comunicação e rotina condominial.
+                </p>
+                <p className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-signal">
+                  Acessar /condominio
+                  <ArrowUpRight size={16} />
+                </p>
+              </div>
+            </a>
+
+            <a
+              href="/empresa"
+              className="group overflow-hidden rounded-3xl border border-sky-300/55 bg-white shadow-brutalSoft transition hover:-translate-y-1 hover:shadow-brutal"
+            >
+              <img
+                src="/images/empresa/empresa-hero.jpg"
+                alt="pintura predial para empresas"
+                className="h-52 w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                loading="lazy"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-semibold">Pintura Predial para Empresas</h3>
+                <p className="mt-3 text-sm leading-relaxed text-ink/80">
+                  Página direcionada para gestores e facilities com foco em operação ativa, padrão profissional e previsibilidade.
+                </p>
+                <p className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-signal">
+                  Acessar /empresa
+                  <ArrowUpRight size={16} />
+                </p>
+              </div>
+            </a>
           </div>
         </section>
 

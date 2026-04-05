@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/condominio/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/empresa/:path*",
+      "destination": "/"
+    }
+  ]
+}
