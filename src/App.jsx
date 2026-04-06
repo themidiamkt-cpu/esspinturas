@@ -115,6 +115,7 @@ const services = [
 ];
 
 const portfolioFilters = ["Todos", "Condomínio", "Comercial", "Corporativo"];
+const IMAGE_FALLBACK_SRC = "/images/fallback-premium.jpg";
 
 const buildProjectGallery = (modules, projectName) => {
   let imageNumber = 0;
@@ -138,289 +139,99 @@ const buildProjectGallery = (modules, projectName) => {
     });
 };
 
-const galeriaShoppingCover = new URL("../imagens/Galeria Shopping/capa.png", import.meta.url).href;
-
-const galeriaShoppingPhotos = [
-  {
-    src: galeriaShoppingCover,
-    alt: "Capa do projeto Galeria Shopping com fachada em execução de pintura"
-  },
-  {
-    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.18.jpeg", import.meta.url).href,
-    alt: "Equipe técnica executando pintura predial no projeto Galeria Shopping"
-  },
-  {
-    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.18 (1).jpeg", import.meta.url).href,
-    alt: "Fachada do Galeria Shopping durante etapa de recuperação e pintura"
-  },
-  {
-    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.18 (2).jpeg", import.meta.url).href,
-    alt: "Execução em altura no projeto Galeria Shopping em São Paulo"
-  },
-  {
-    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.19.jpeg", import.meta.url).href,
-    alt: "Detalhe de aplicação técnica em fachada no Galeria Shopping"
-  },
-  {
-    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.20.jpeg", import.meta.url).href,
-    alt: "Obra predial comercial em andamento no Galeria Shopping"
-  },
-  {
-    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.20 (1).jpeg", import.meta.url).href,
-    alt: "Pintura predial com protocolo técnico no Galeria Shopping"
-  },
-  {
-    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.20 (2).jpeg", import.meta.url).href,
-    alt: "Etapa de acabamento da pintura externa no Galeria Shopping"
-  },
-  {
-    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.21.jpeg", import.meta.url).href,
-    alt: "Frente de trabalho em pintura de fachada comercial no Galeria Shopping"
-  },
-  {
-    src: new URL("../imagens/Galeria Shopping/WhatsApp Image 2026-03-12 at 11.47.21 (1).jpeg", import.meta.url).href,
-    alt: "Resultado técnico de obra de pintura predial no Galeria Shopping"
-  }
-];
-
-const ilhaCaribeCover = new URL("../imagens/condomínio ilha do Caribe campinas/capa.jpeg", import.meta.url).href;
-
-const ilhaCaribePhotos = [
-  {
-    src: ilhaCaribeCover,
-    alt: "Capa do projeto Condomínio Ilha do Caribe em Campinas"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.40.jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 1"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.49.jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 2"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.50.jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 3"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.50 (1).jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 4"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.50 (2).jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 5"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.50 (3).jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 6"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.52.jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 7"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.52 (1).jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 8"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.53.jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 9"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.54.jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 10"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.58.jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 11"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.58 (1).jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 12"
-  },
-  {
-    src: new URL("../imagens/condomínio ilha do Caribe campinas/WhatsApp Image 2026-03-12 at 11.56.59.jpeg", import.meta.url).href,
-    alt: "Projeto Condomínio Ilha do Caribe em Campinas - imagem 13"
-  }
-];
-
-const boaNovaCover = new URL("../imagens/condomínio boa nova Hortolândia /capa.jpg", import.meta.url).href;
-
-const boaNovaPhotos = [
-  {
-    src: boaNovaCover,
-    alt: "Capa do projeto Condomínio Boa Nova em Hortolândia"
-  },
-  {
-    src: new URL("../imagens/condomínio boa nova Hortolândia /20180307_115623.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 1"
-  },
-  {
-    src: new URL("../imagens/condomínio boa nova Hortolândia /20180315_074629.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 2"
-  },
-  {
-    src: new URL("../imagens/condomínio boa nova Hortolândia /20180320_075030.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 3"
-  },
-  {
-    src: new URL("../imagens/condomínio boa nova Hortolândia /20180322_182649.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 4"
-  },
-  {
-    src: new URL("../imagens/condomínio boa nova Hortolândia /20180404_153036.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 5"
-  },
-  {
-    src: new URL("../imagens/condomínio boa nova Hortolândia /20180410_153955.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 6"
-  },
-  {
-    src: new URL("../imagens/condomínio boa nova Hortolândia /20180416_080414.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Boa Nova em Hortolândia - imagem 7"
-  }
-];
-
-const ibmBtCover = new URL("../imagens/IBM BT telecomunicações/capa.jpg", import.meta.url).href;
-
-const ibmBtPhotos = [
-  {
-    src: ibmBtCover,
-    alt: "Capa do projeto IBM BT Telecomunicações em Hortolândia"
-  },
-  {
-    src: new URL("../imagens/IBM BT telecomunicações/20190107_102526.jpg", import.meta.url).href,
-    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 1"
-  },
-  {
-    src: new URL("../imagens/IBM BT telecomunicações/20190107_105552.jpg", import.meta.url).href,
-    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 2"
-  },
-  {
-    src: new URL("../imagens/IBM BT telecomunicações/20190204_152110.jpg", import.meta.url).href,
-    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 3"
-  },
-  {
-    src: new URL("../imagens/IBM BT telecomunicações/20190204_152117.jpg", import.meta.url).href,
-    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 4"
-  },
-  {
-    src: new URL("../imagens/IBM BT telecomunicações/20190207_152229.jpg", import.meta.url).href,
-    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 5"
-  },
-  {
-    src: new URL("../imagens/IBM BT telecomunicações/20190208_082402.jpg", import.meta.url).href,
-    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 6"
-  },
-  {
-    src: new URL("../imagens/IBM BT telecomunicações/20190208_092554.jpg", import.meta.url).href,
-    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 7"
-  },
-  {
-    src: new URL("../imagens/IBM BT telecomunicações/20190225_115907.jpg", import.meta.url).href,
-    alt: "Projeto IBM BT Telecomunicações em Hortolândia - imagem 8"
-  }
-];
-
-const vilaAbaeteCover = new URL("../imagens/condomínio vila Abaeté campinas/capa.jpg", import.meta.url).href;
-
-const vilaAbaetePhotos = [
-  {
-    src: vilaAbaeteCover,
-    alt: "Capa do projeto Condomínio Vila Abaeté Campinas"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200520_090704.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 1"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200520_091606.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 2"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200520_122836.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 3"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200520_123714.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 4"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200520_190642.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 5"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200521_120451.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 6"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200521_123323.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 7"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200521_123427.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 8"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200521_151654.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 9"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200526_133326.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 10"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200527_185705.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 11"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200527_190004.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 12"
-  },
-  {
-    src: new URL("../imagens/condomínio vila Abaeté campinas/20200527_190227.jpg", import.meta.url).href,
-    alt: "Projeto Condomínio Vila Abaeté Campinas - imagem 13"
-  }
-];
-
-const fontanaGardenModules = import.meta.glob("../imagens/condomínio Fontana garden campinas/*.{jpg,jpeg,png}", {
+const allProjectModules = import.meta.glob("../imagens/*/*.{jpg,jpeg,png,JPG,JPEG,PNG}", {
   eager: true,
   import: "default"
 });
 
-const fontanaGardenPhotos = buildProjectGallery(fontanaGardenModules, "Condomínio Fontana Garden Campinas");
-const fontanaGardenCover =
-  fontanaGardenPhotos.find((photo) => photo.isCover)?.src || fontanaGardenPhotos[0]?.src || "";
+const normalizeForMatch = (value) =>
+  value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
 
-const sesiIndaiatubaModules = import.meta.glob("../imagens/SESI Indaiatuba/*.{jpg,jpeg,png}", {
-  eager: true,
-  import: "default"
-});
+const pickProjectMedia = (folderHint, projectName) => {
+  const normalizedHint = normalizeForMatch(folderHint);
+  const modules = Object.fromEntries(
+    Object.entries(allProjectModules).filter(([path]) => {
+      const directory = path.split("/").slice(-2, -1)[0] || "";
+      return normalizeForMatch(directory).includes(normalizedHint);
+    })
+  );
 
-const sesiIndaiatubaPhotos = buildProjectGallery(sesiIndaiatubaModules, "SESI Indaiatuba");
-const sesiIndaiatubaCover =
-  sesiIndaiatubaPhotos.find((photo) => photo.isCover)?.src || sesiIndaiatubaPhotos[0]?.src || "";
+  const photos = buildProjectGallery(modules, projectName);
+  const cover = photos.find((photo) => photo.isCover)?.src || photos[0]?.src || "";
 
-const autolinkModules = import.meta.glob("../imagens/autolink centro automotivo campinas/*.{jpg,jpeg,png}", {
-  eager: true,
-  import: "default"
-});
+  return { photos, cover };
+};
 
-const autolinkPhotos = buildProjectGallery(autolinkModules, "Autolink Centro Automotivo Campinas");
-const autolinkCover =
-  autolinkPhotos.find((photo) => photo.isCover)?.src || autolinkPhotos[0]?.src || "";
+const PortfolioImage = ({ src, alt, className, loading = "lazy", watermark = true }) => (
+  <div className={`relative ${className}`}>
+    <img
+      src={src || IMAGE_FALLBACK_SRC}
+      alt={alt}
+      className="h-full w-full object-cover"
+      loading={loading}
+      onError={(event) => {
+        if (event.currentTarget.dataset.fallbackApplied === "true") return;
+        event.currentTarget.dataset.fallbackApplied = "true";
+        event.currentTarget.src = IMAGE_FALLBACK_SRC;
+      }}
+    />
+    {watermark ? (
+      <span className="pointer-events-none absolute bottom-2 right-2 rounded-md border border-fog/55 bg-ink/65 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-fog/95 backdrop-blur-sm">
+        E2SPinturas
+      </span>
+    ) : null}
+  </div>
+);
 
-const shoppingDomPedroModules = import.meta.glob("../imagens/Shopping Dom Pedro /*.{jpg,jpeg,png}", {
-  eager: true,
-  import: "default"
-});
+const { photos: galeriaShoppingPhotos, cover: galeriaShoppingCover } = pickProjectMedia(
+  "Galeria Shopping",
+  "Galeria Shopping"
+);
 
-const shoppingDomPedroPhotos = buildProjectGallery(
-  shoppingDomPedroModules,
+const { photos: ilhaCaribePhotos, cover: ilhaCaribeCover } = pickProjectMedia(
+  "condominio ilha do caribe campinas",
+  "Condomínio Ilha do Caribe"
+);
+
+const { photos: boaNovaPhotos, cover: boaNovaCover } = pickProjectMedia(
+  "condominio boa nova hortolandia",
+  "Condomínio Boa Nova Hortolândia"
+);
+
+const { photos: ibmBtPhotos, cover: ibmBtCover } = pickProjectMedia(
+  "ibm bt telecomunicacoes",
+  "IBM BT Telecomunicações Hortolândia"
+);
+
+const { photos: vilaAbaetePhotos, cover: vilaAbaeteCover } = pickProjectMedia(
+  "condominio vila abaete campinas",
+  "Condomínio Vila Abaeté Campinas"
+);
+
+const { photos: fontanaGardenPhotos, cover: fontanaGardenCover } = pickProjectMedia(
+  "condominio fontana garden campinas",
+  "Condomínio Fontana Garden Campinas"
+);
+
+const { photos: sesiIndaiatubaPhotos, cover: sesiIndaiatubaCover } = pickProjectMedia(
+  "SESI Indaiatuba",
+  "SESI Indaiatuba"
+);
+
+const { photos: autolinkPhotos, cover: autolinkCover } = pickProjectMedia(
+  "autolink centro automotivo campinas",
+  "Autolink Centro Automotivo Campinas"
+);
+
+const { photos: shoppingDomPedroPhotos, cover: shoppingDomPedroCover } = pickProjectMedia(
+  "shopping dom pedro",
   "Shopping Dom Pedro - Parte Interna e Corredores"
 );
-const shoppingDomPedroCover =
-  shoppingDomPedroPhotos.find((photo) => photo.isCover)?.src || shoppingDomPedroPhotos[0]?.src || "";
 
 const portfolioItems = [
   {
@@ -863,59 +674,6 @@ function App() {
           </div>
         </section>
 
-        <section id="segmentos" className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20" data-reveal>
-          <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">Segmentos Atendidos com Página Especializada</h2>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink/80">
-            Criamos rotas específicas para cada perfil de contratação, com argumentos técnicos e abordagem segmentada.
-          </p>
-
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            <a
-              href="/condominio"
-              className="group overflow-hidden rounded-3xl border border-sky-300/55 bg-white shadow-brutalSoft transition hover:-translate-y-1 hover:shadow-brutal"
-            >
-              <img
-                src="/images/condominio/condominio-hero.jpg"
-                alt="pintura predial para condomínios"
-                className="h-52 w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                loading="lazy"
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold">Pintura Predial para Condomínios</h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink/80">
-                  Página dedicada para síndicos e administradoras com foco em cronograma, comunicação e rotina condominial.
-                </p>
-                <p className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-signal">
-                  Acessar /condominio
-                  <ArrowUpRight size={16} />
-                </p>
-              </div>
-            </a>
-
-            <a
-              href="/empresa"
-              className="group overflow-hidden rounded-3xl border border-sky-300/55 bg-white shadow-brutalSoft transition hover:-translate-y-1 hover:shadow-brutal"
-            >
-              <img
-                src="/images/empresa/empresa-hero.jpg"
-                alt="pintura predial para empresas"
-                className="h-52 w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                loading="lazy"
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold">Pintura Predial para Empresas</h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink/80">
-                  Página direcionada para gestores e facilities com foco em operação ativa, padrão profissional e previsibilidade.
-                </p>
-                <p className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-signal">
-                  Acessar /empresa
-                  <ArrowUpRight size={16} />
-                </p>
-              </div>
-            </a>
-          </div>
-        </section>
-
         <section className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24" data-reveal>
           <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">Prova Estrutural e Confiança de Execução</h2>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink/80">
@@ -1044,7 +802,12 @@ function App() {
                   onClick={() => openProjectModal(work)}
                   className="overflow-hidden rounded-2xl border border-sky-300/55 bg-white text-left shadow-brutalSoft transition hover:-translate-y-1 hover:shadow-brutal"
                 >
-                  <img src={work.image} alt={`Obra predial em ${work.city}`} className="h-44 w-full object-cover" loading="lazy" />
+                  <PortfolioImage
+                    src={work.image}
+                    alt={`Obra predial em ${work.city}`}
+                    className="h-44 w-full object-cover"
+                    loading="lazy"
+                  />
                   <div className="p-5">
                     <h3 className="text-lg font-semibold">{work.project || work.city}</h3>
                     <p className="mt-2 text-sm text-ink/80">Tipo: {work.type}</p>
@@ -1250,10 +1013,11 @@ function App() {
             <div className="grid gap-6 lg:grid-cols-[1.45fr_1fr]">
               <div>
                 <div className="relative overflow-hidden rounded-2xl border border-sky-300/55 bg-concrete/60">
-                  <img
+                  <PortfolioImage
                     src={selectedProject.gallery[activeProjectPhoto].src}
                     alt={selectedProject.gallery[activeProjectPhoto].alt}
                     className="h-64 w-full object-cover sm:h-80"
+                    loading="eager"
                   />
                   {selectedProject.gallery.length > 1 ? (
                     <>
@@ -1288,7 +1052,13 @@ function App() {
                           activeProjectPhoto === index ? "border-signal" : "border-sky-300/55"
                         }`}
                       >
-                        <img src={photo.src} alt={photo.alt} className="h-16 w-full object-cover sm:h-20" loading="lazy" />
+                        <PortfolioImage
+                          src={photo.src}
+                          alt={photo.alt}
+                          className="h-16 w-full object-cover sm:h-20"
+                          loading="lazy"
+                          watermark={false}
+                        />
                       </button>
                     ))}
                   </div>
