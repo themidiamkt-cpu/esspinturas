@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="E2SPinturas">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1b46" />
+      <stop offset="100%" stop-color="#102f7a" />
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#bg)" />
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="none" stroke="#66c4ff" stroke-width="2" />
+  <text
+    x="32"
+    y="39"
+    text-anchor="middle"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="20"
+    font-weight="700"
+    fill="#ffffff"
+    letter-spacing="0.5"
+  >
+    E2S
+  </text>
+</svg>
